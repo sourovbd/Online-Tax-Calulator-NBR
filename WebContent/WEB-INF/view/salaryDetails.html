@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+	<script type="text/javascript" src="/TaxCalculator/resources/js/salaryDetails.js"></script>
+	<link type="text/css" href="/TaxCalculator/resources/css/styleForPopupModal.css" rel="stylesheet"></link>
+</head>
+<body>
+	<p style="color:green">Salary (Schedule-1)</p>
+	<div>
+		<table class="mainTable">
+			<thead>
+				<tr>
+					<th>S/N(1)</th>
+					<th>Pay and Allowance (Annual) (2)</th>
+					<th>Amount of Income (Tk.)(3)</th>
+					<th>Amount of Exempted Income (Tk.)(4)</th>
+					<th>Net Taxable Income (Tk.)(5)</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>1</td>
+					<td>Basic Pay</td>
+					<td><input type="text" id="basicPay" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="basicPay" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="basicPay" value="0" onchange="netSalary()" /></td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td>Special Pay</td>
+					<td><input type="text" id="specialPay" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="specialPay" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="specialPay" value="0" onchange="netSalary()" /></td>
+				</tr>
+				<tr>
+					<td>3</td>
+					<td>Dearness Allowance</td>
+					<td><input type="text" id="dearnessAllowance" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="dearnessAllowance" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="dearnessAllowance" value="0" onchange="netSalary()" /></td>
+				</tr>
+				<tr>
+					<td>4</td>
+					<td>Conveyance Allowance</td>
+					<td><input type="text" id="conveyanceAllowance" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="conveyanceAllowance" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="conveyanceAllowance" value="0" onchange="netSalary()" /></td>
+				</tr>
+				<tr>
+					<td>5</td>
+					<td>House Rent Allowance</td>
+					<td><input type="text" id="houseRentAllowance" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="houseRentAllowance" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="houseRentAllowance" value="0" onchange="netSalary()" /></td>
+				</tr>
+				<tr>
+					<td>6</td>
+					<td>Medical Allowance (Claim the Medical Expenditure in column 4)</td>
+					<td><input type="text" id="medicalAllowance" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="medicalAllowance" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="medicalAllowance" value="0" onchange="netSalary()" /></td>
+				</tr>
+				<tr>
+					<td>7</td>
+					<td>Servant Allowance</td>
+					<td><input type="text" id="servantAllowance" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="servantAllowance" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="servantAllowance" value="0" onchange="netSalary()" /></td>
+				</tr>
+				<tr>
+					<td>8</td>
+					<td>Leave Allowance</td>
+					<td><input type="text" id="leaveAllowance" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="leaveAllowance" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="leaveAllowance" value="0" onchange="netSalary()" /></td>
+				</tr>
+				<tr>
+					<td>9</td>
+					<td>Honorarium/Reward/Fee</td>
+					<td><input type="text" id="honorarium" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="honorarium" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="honorarium" value="0" onchange="netSalary()" /></td>
+				</tr>
+				<tr>
+					<td>10</td>
+					<td>Overtime Allowance</td>
+					<td><input type="text" id="overtimeAllowance" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="overtimeAllowance" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="overtimeAllowance" value="0" onchange="netSalary()" /></td>
+				</tr>
+				<tr>
+					<td>11</td>
+					<td>Bonus/Ex-Gratia</td>
+					<td><input type="text" id="bonus" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="bonus" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="bonus" value="0" onchange="netSalary()" /></td>
+				</tr>
+				<tr>
+					<td>12</td>
+					<td>Other Allowances</td>
+					<td><input type="text" id="otherAllowance" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="otherAllowance" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="otherAllowance" value="0" onchange="netSalary()" /></td>
+				</tr>
+				<tr>
+					<td>13</td>
+					<td>Employer’s Contribution to Recognized Provident Fund</td>
+					<td><input type="text" id="empContributeToProvidentFund" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="empContributeToProvidentFund" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="empContributeToProvidentFund" value="0" onchange="netSalary()" /></td>
+				</tr>
+				<tr>
+					<td>14</td>
+					<td>Interest Accrued on Recognized Provident Fund</td>
+					<td><input type="text" id="interestAccruedOnProvidentFund" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="interestAccruedOnProvidentFund" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="interestAccruedOnProvidentFund" value="0" onchange="netSalary()" /></td>
+				</tr>
+				<tr>
+					<td>15</td>
+					<td>Deemed Income for Transport Facility</td>
+					<td><input type="text" id="deemedIncomeForTransportFacility" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="deemedIncomeForTransportFacility" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="deemedIncomeForTransportFacility" value="0" onchange="netSalary()" /></td>
+				</tr>
+				<tr>
+					<td>16</td>
+					<td>Deemed Income for Free Furnished/Unfurnished Accommodation</td>
+					<td><input type="text" id="deemedIncomeForFreeFurnishedOrUnfurnishedAccommodatio" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="deemedIncomeForFreeFurnishedOrUnfurnishedAccommodatio" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="deemedIncomeForFreeFurnishedOrUnfurnishedAccommodatio" value="0" onchange="netSalary()" /></td>
+				</tr>
+				<tr>
+					<td>17</td>
+					<td>Other (if any)</td>
+					<td><input type="text" id="other" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="other" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="other" value="0" onchange="netSalary()" /></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>Net Taxable Income from Salary</td>
+					<td><input type="text" id="netTaxableIncomeFromSalary" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="netTaxableIncomeFromSalary" value="0" onchange="netSalary()" /></td>
+					<td><input type="text" id="netTaxableIncomeFromSalary" value="0" onchange="netSalary()" /></td>
+				</tr>
+			</tbody>
+		</table>
+		<div>
+			<input type="button" value="Back"   onclick="backPage()" style="height: 30px; width: 100px;" />
+			<input type="button" value="Insert" onclick="insertData()" style="height: 30px; width: 100px;" />	
+		</div>
+	</div>
+</body>
+</html>

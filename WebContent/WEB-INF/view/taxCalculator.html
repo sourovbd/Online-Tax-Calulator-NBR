@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Insert title here</title>
+	<script type="text/javascript" src="/TaxCalculator/resources/js/jquery-1.11.0.js"></script>
+	<script type="text/javascript" src="/TaxCalculator/resources/js/taxCalculator.js"></script>
+  	<script type="text/javascript" src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  	<link type="text/css" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+  	<link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet"></link>
+    <style>
+         .ui-widget-header,.ui-state-default, ui-button{
+            background:#b9cd6d;
+            border: 1px solid #b9cd6d;
+            color: #FFFFFF;
+            font-size:10px;
+            font-color:red;
+            /* font-weight: bold; */
+         }
+         .mainTable {
+        	color: green
+        }
+    </style>
+    <!-- Javascript -->
+      <script>
+      $(function() {
+          $( "#another-dialog" ).dialog({
+             autoOpen: false, 
+             hide: "puff",
+             show : "slide",
+             height: 900,
+             width: 900,
+             modal: true,
+             buttons: {
+                Ok: function() {$(this).dialog("close");}
+             },
+          });
+          $( "#salaryDetails" ).click(function() {
+             $( "#another-dialog" ).dialog( "open" );
+          });
+       });
+     </script>
+     <script>
+     $(function() {
+         $( "#another-dialog2" ).dialog({
+            autoOpen: false, 
+            hide: "puff",
+            show : "slide",
+            height: 600,
+            width: 900,
+            modal: true,
+            buttons: {
+               Ok: function() {$(this).dialog("close");}
+            },
+         });
+         $( "#incomeFromHousePropertyDetails" ).click(function() {
+            $( "#another-dialog2" ).dialog( "open" );
+         });
+      });
+     </script>
+     <script>
+     $(function() {
+         $( "#another-dialog3" ).dialog({
+            autoOpen: false, 
+            hide: "puff",
+            show : "slide",
+            height: 600,
+            width: 900,
+            modal: true,
+            buttons: {
+               Ok: function() {$(this).dialog("close");}
+            },
+         });
+         $( "#investmentDetails" ).click(function() {
+            $( "#another-dialog3" ).dialog( "open" );
+         });
+      });
+     </script>
+</head>
+<body>
+	<fieldset>
+		<p align="center" style="color:green">This Tax Calculator is applicable for ASD Citizens only</p>
+		<form action="#" id="taxPayerInfo" method="post" >
+			<table class="mainTable">
+				<tr>
+					<td align="left">Assessment Year</td>
+					<td align="left">
+						<select name="assessmentYear" id="assessmentYear" >
+						<option></option>
+						<option>2014-2015</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="left">Name of the Taxpayer</td>
+					<td align="left">
+						<input type="text" name="taxPayer" id="taxPayer" />	
+					</td>
+				</tr>
+				<tr>
+					<td align="left">
+						<input type="radio" name="tinType" value="oldTin" onselect="showData()" />Old TIN 
+						<input type="radio" name="tinType" value="newTin" checked="checked" onselect="showData()" />New TIN 
+					</td>
+					<td align="left"></td>
+				</tr>
+				<tr>
+					<td align="left">TIN</td>
+					<td align="left">
+						<input type="text" id="tin" />
+					</td>
+				</tr>
+				<tr>
+					<td align="left">Gender</td>
+					<td align="left">
+						<input type="radio" name="gender" value="male" checked="checked" onselect="showData()"/>Male
+						<input type="radio" name="gender" value="female" onselect="showData()"/>Female
+					</td>
+				</tr>
+				<tr>
+					<td align="left">If Disable (Click the box)</td>
+					<td align="left">
+						<input type="checkbox" id="disable" value="disable" onselect="showData()" />
+					</td>
+				</tr>
+				<tr>
+					<td align="left"> If Government Employee (Click the box) </td>
+					<td align="left">
+						<input type="checkbox" id="govtEmployee" value="govtEmployee" onselect="showData()" />
+					</td>
+				</tr>
+				<tr>
+					<td align="left">Date of Birth</td>
+					<td align="left">
+						<input type="text" id="dateOfBirth" onchange="showData()"/>
+					</td>
+				</tr>
+				<tr>
+					<td align="left">Area of Residence</td>
+					<td align="left">
+						<select id="areaOfResidence" >
+							<option>City Corporation Areas</option>
+							<option>District Town Areas</option>
+							<option>Other Areas</option>
+						</select>
+					</td>
+				</tr>	
+			</table>
+			<p style="color:green">[To use this calculator you can insert net income under different heads directly in 
+				"Amount in Taka" column. If you want to calculate those by using software please click 
+				on the respective 'Details']
+			</p>
+			<table border="1" class="mainTable">
+				<thead>
+					<tr>
+						<th>S/N</th>
+						<th>Heads of Income</th>
+						<th>Amount in Taka</th>
+						<th>Details</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>Salary  </td>
+						<td><input type="text" id="salary" value="0" onchange="netIncome()" /></td>
+						<td>
+							<input type="button" id="salaryDetails" value="Details" /> <!-- style="width: 290px" --><!-- onclick="ShowNewPage()" -->
+							<!-- <a href="http://www.google.com" target="_blank">Details</a> -->
+						</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>Interest on Securities  </td>
+						<td><input type="text" id="interestOnSecurity" value="0" onchange="netIncome()" /></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td>Income from House Property  </td>
+						<td><input type="text" id="incomeFromHouseProperty" value="0" onchange="netIncome()" /></td>
+						<td>
+							<input type="button" id="incomeFromHousePropertyDetails" value="Details" />
+						</td>
+					</tr>
+					<tr>
+						<td>4</td>
+						<td>Agricultural Income (Net)  </td>
+						<td><input type="text" id="agriculturalIncome" value="0" onchange="netIncome()" /></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>5</td>
+						<td>Income from Business or Profession  </td>
+						<td><input type="text" id="incomeFromBusinessProfession" value="0" onchange="netIncome()" /></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td rowspan="2">6</td>
+						<td>
+							Share of Profit in Firm(s): 
+							<table border="1">
+								<thead>
+									<tr>
+										<th>Total Income of Firm</th>
+										<th>Share of the Assessee</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><input type="text" id="totalIncomeOfFirm1" value="0" onchange="totalIncomeOfFirm()" /></td>
+										<td><input type="text" id="shareOfTheAssessee1" value="0" onchange="shareOfTheAssessee()" /></td>
+									</tr>
+									<tr>
+										<td><input type="text" id="totalIncomeOfFirm2" value="0" onchange="totalIncomeOfFirm()" /></td>
+										<td><input type="text" id="shareOfTheAssessee2" value="0" onchange="shareOfTheAssessee()" /></td>
+									</tr>
+									<tr>
+										<td><input type="text" id="totalIncomeOfFirm3" value="0" onchange="totalIncomeOfFirm()" /></td>
+										<td><input type="text" id="shareOfTheAssessee3" value="0" onchange="shareOfTheAssessee()" /></td>
+									</tr>
+									<tr>
+										<td><input type="text" id="totalIncomeOfFirm4" value="0" onchange="totalIncomeOfFirm()" /></td>
+										<td><input type="text" id="shareOfTheAssessee4" value="0" onchange="shareOfTheAssessee()" /></td>
+									</tr>
+									<tr>
+										<td><input type="text" id="totalIncomeOfFirm5" value="0" onchange="totalIncomeOfFirm()" /></td>
+										<td><input type="text" id="shareOfTheAssessee5" value="0" onchange="shareOfTheAssessee()" /></td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Total Share of the Assessee</td>
+						<td><input type="text" disabled="disabled" id="totalShareOfTheAssessee" value="0" /></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>7</td>
+						<td>Income of the Spouse   or Minor Child</td>
+						<td><input type="text" id="incomeOfTheSpouse" value="0" onchange="netIncome()" /></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>8</td>
+						<td>Capital Gains u/s 31      </td>
+						<td><input type="text" id="capitalGain" value="0" onchange="netIncome()" /></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>9</td>
+						<td>Income from Other Source  </td>
+						<td><input type="text" id="incomeFromOtherSource" value="0" onchange="netIncome()" /></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td colspan="2">Total Income (serial no. 1 to 9 excluding 82C income)  </td>
+						<td><input type="text" disabled="disabled" id="totalIncome" value="0" /></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td colspan="2">Tax Leviable on Total Income</td>
+						<td><input type="text" disabled="disabled" id="taxLeviableOnTotalIncome" value="0" /></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td colspan="2">Investments  </td>
+						<td><input type="text" id="investment" value="0" onchange="getInvestment()" /></td>
+						<td>
+							<input type="button" id="investmentDetails" value="Details"/>
+						</td>
+					</tr>
+					<tr>
+						<td rowspan="2"></td>
+						<td>
+							Tax Rebate:
+							<table>
+								<tr>
+									<td>(a) u/s 44 (2) (b)</td>
+									<td>
+										TK. <input type="text" disabled="disabled" id="taxRebate" value="0" />
+									</td>
+								</tr>
+								<tr>
+									<td>(b) Taxed Income (From Firm/AOP)</td>
+									<td>
+										TK. <input type="text" disabled="disabled" id="taxedIncome" value="0" />
+									</td>
+								</tr>
+							</table>
+						</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Total of (a) and (b)</td>
+						<td><input type="text" id="taxRebateTotal" value="0" /></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td colspan="2">Tax already Paid  </td>
+						<td>
+							<input type="text" id="taxAlreadyPaid" value="0" onchange="getNetTaxPayable()" />
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td colspan="2">Net Tax Payable  </td>
+						<td>
+							<input type="text" disabled="disabled" id="netTaxPayable" value="0" onchange="netTaxPayable()"/>
+						</td>
+						<td></td> 
+					</tr>
+				</tbody>
+			</table>
+			<div>
+				<input type="submit" name="print" value="Print" />
+			</div>
+		</form>
+	</fieldset>
+	
+	<!-- <div class="popup">
+        <div class='cnt223'> -->
+	<div id="another-dialog">
+		<p style="color:green; text-align: center">Salary (Schedule-1)</p>
+			<div>
+				<form action="" class="mainTable">
+				<table border="1">
+					<thead>
+						<tr>
+							<th>S/N(1)</th>
+							<th>Pay and Allowance (Annual) (2)</th>
+							<th>Amount of Income (Tk.)(3)</th>
+							<th>Amount of Exempted Income (Tk.)(4)</th>
+							<th>Net Taxable Income (Tk.)(5)</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td>Basic Pay</td>
+							<td><input type="text" id="basicPay1" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="basicPay2" disabled="disabled" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="basicPay3" disabled="disabled" value="0" onchange="netSalary()" /></td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>Special Pay</td>
+							<td><input type="text" id="specialPay1" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="specialPay2" disabled="disabled" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="specialPay3" disabled="disabled" value="0" onchange="netSalary()" /></td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td>Dearness Allowance</td>
+							<td><input type="text" id="dearnessAllowance1" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="dearnessAllowance2" disabled="disabled" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="dearnessAllowance3" disabled="disabled" value="0" onchange="netSalary()" /></td>
+						</tr>
+						<tr>
+							<td>4</td>
+							<td>Conveyance Allowance</td>
+							<td><input type="text" id="conveyanceAllowance1" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="conveyanceAllowance2" disabled="disabled" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="conveyanceAllowance3" disabled="disabled" value="0" onchange="netSalary()" /></td>
+						</tr>
+						<tr>
+							<td>5</td>
+							<td>House Rent Allowance</td>
+							<td><input type="text" id="houseRentAllowance1" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="houseRentAllowance2" disabled="disabled" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="houseRentAllowance3" disabled="disabled" value="0" onchange="netSalary()" /></td>
+						</tr>
+						<tr>
+							<td>6</td>
+							<td>Medical Allowance (Claim the Medical Expenditure in column 4)</td>
+							<td><input type="text" id="medicalAllowance1" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="medicalAllowance2" disabled="disabled" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="medicalAllowance3" disabled="disabled" value="0" onchange="netSalary()" /></td>
+						</tr>
+						<tr>
+							<td>7</td>
+							<td>Servant Allowance</td>
+							<td><input type="text" id="servantAllowance1" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="servantAllowance2" disabled="disabled" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="servantAllowance3" disabled="disabled" value="0" onchange="netSalary()" /></td>
+						</tr>
+						<tr>
+							<td>8</td>
+							<td>Leave Allowance</td>
+							<td><input type="text" id="leaveAllowance1" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="leaveAllowance2" disabled="disabled" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="leaveAllowance3" disabled="disabled" value="0" onchange="netSalary()" /></td>
+						</tr>
+						<tr>
+							<td>9</td>
+							<td>Honorarium/Reward/Fee</td>
+							<td><input type="text" id="honorarium1" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="honorarium2" disabled="disabled" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="honorarium3" disabled="disabled" value="0" onchange="netSalary()" /></td>
+						</tr>
+						<tr>
+							<td>10</td>
+							<td>Overtime Allowance</td>
+							<td><input type="text" id="overtimeAllowance1" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="overtimeAllowance2" disabled="disabled" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="overtimeAllowance3" disabled="disabled" value="0" onchange="netSalary()" /></td>
+						</tr>
+						<tr>
+							<td>11</td>
+							<td>Bonus/Ex-Gratia</td>
+							<td><input type="text" id="bonus1" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="bonus2" disabled="disabled" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="bonus3" disabled="disabled" value="0" onchange="netSalary()" /></td>
+						</tr>
+						<tr>
+							<td>12</td>
+							<td>Other Allowances</td>
+							<td><input type="text" id="otherAllowance1" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="otherAllowance2" disabled="disabled" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="otherAllowance3" disabled="disabled" value="0" onchange="netSalary()" /></td>
+						</tr>
+						<tr>
+							<td>13</td>
+							<td>Employer’s Contribution to Recognized Provident Fund</td>
+							<td><input type="text" id="empContributeToProvidentFund1" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="empContributeToProvidentFund2" disabled="disabled" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="empContributeToProvidentFund3" disabled="disabled" value="0" onchange="netSalary()" /></td>
+						</tr>
+						<tr>
+							<td>14</td>
+							<td>Interest Accrued on Recognized Provident Fund</td>
+							<td><input type="text" id="interestAccruedOnProvidentFund1" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="interestAccruedOnProvidentFund2" disabled="disabled" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="interestAccruedOnProvidentFund3" disabled="disabled" value="0" onchange="netSalary()" /></td>
+						</tr>
+						<tr>
+							<td>15</td>
+							<td>Deemed Income for Transport Facility</td>
+							<td><input type="text" id="deemedIncomeForTransportFacility1" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="deemedIncomeForTransportFacility2" disabled="disabled" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="deemedIncomeForTransportFacility3" disabled="disabled" value="0" onchange="netSalary()" /></td>
+						</tr>
+						<tr>
+							<td>16</td>
+							<td>Deemed Income for Free Furnished/Unfurnished Accommodation</td>
+							<td><input type="text" id="deemedIncomeForFreeFurnishedOrUnfurnishedAccommodation1" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="deemedIncomeForFreeFurnishedOrUnfurnishedAccommodation2" disabled="disabled" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="deemedIncomeForFreeFurnishedOrUnfurnishedAccommodation3" disabled="disabled" value="0" onchange="netSalary()" /></td>
+						</tr>
+						<tr>
+							<td>17</td>
+							<td>Other (if any)</td>
+							<td><input type="text" id="other1" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="other2" disabled="disabled" value="0" onchange="netSalary()" /></td>
+							<td><input type="text" id="other3" disabled="disabled" value="0" onchange="netSalary()" /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>Net Taxable Income from Salary</td>
+							<td><input type="text" id="netTaxableIncomeFromSalary1" disabled="disabled" value="0" /></td>
+							<td><input type="text" id="netTaxableIncomeFromSalary2" disabled="disabled" value="0" /></td>
+							<td><input type="text" id="netTaxableIncomeFromSalary3" disabled="disabled" value="0" /></td>
+						</tr>
+					</tbody>
+				</table>
+				</form>
+				<!-- <div>
+					<input type="button" id="backButton" value="Back"   onclick="backPage()" style="height: 30px; width: 100px;" />
+					<input type="button" id="insert" value="Insert" onclick="insertData()" style="height: 30px; width: 100px;" />	
+				</div> -->
+			</div>
+		</div>
+		<div id="another-dialog2">
+			<form action="" id="housePropInfo" >
+				<p style="text-align: center">House Property (Schedule-2)</p>
+				<p>Rental Status 
+					<input type="radio" name="rentalStatus" value="residential"  />Residential
+					<input type="radio" name="rentalStatus" value="commercial"  />Commercial
+				</p>
+				
+							
+				<table class="mainTable" border="1">
+					<thead>
+						<tr>
+							<th>Particulars </th>
+							<th>Tk.</th>
+							<th>Tk.</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td colspan="2">1. Annual Rental Income</td>
+							<td>
+								<input type="text" id="annualRentalIncome" value="0" onchange="netHouseProperty()"/>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3">2. Claimed Expenses:</td>
+						</tr>
+						<tr>
+							<td>Repair, Collection etc.</td>
+							<td>
+								<input type="text" id="repairCollection" value="0" />
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Municipal or Local Tax</td>
+							<td>
+								<input type="text" id="municipalLocalTax" value="0" onchange="netHouseProperty()" />
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Land Revenue</td>
+							<td>
+								<input type="text" id="landRevenue" value="0" onchange="netHouseProperty()" />
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Interest on Loan/Mortgage/Capital Charge</td>
+							<td>
+								<input type="text" id="InterestLMCCharge" value="0" onchange="netHouseProperty()" />
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Insurance Premium</td>
+							<td>
+								<input type="text" id="insurancePremium" value="0" onchange="netHouseProperty()" />
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Vacancy Allowance</td>
+							<td>
+								<input type="text" id="vacancyAllowance" value="0" onchange="netHouseProperty()" />
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Other (if any)</td>
+							<td>
+								<input type="text" id="other" value="0" onchange="netHouseProperty()" />
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td colspan="2" style="text-align:right">Total</td>
+							<td>
+								<input type="text" disabled="disabled" id="totalHouseProperty" value="0" />
+							</td>
+						</tr>	<tr>
+							<td colspan="2">3. Net Income (difference between item 1 and 2)</td>
+							<td>
+								<input type="text" disabled="disabled" id="netIncomeFromHouseProperty" value="0" />
+							</td>
+						</tr>				
+					</tbody>
+				</table>
+			</form>
+			<!-- <div>
+				<input type="button" value="Insert" onclick = "insertHouseProperty()" style="height: 30px; width: 100px;"/>
+			</div> -->
+		</div>
+		<div id="another-dialog3">
+		<p style="text-align:center">Investment (Schedule-3)</p>
+		<p style="align:right">(Section 44(2)(b) read with part 'B' of Sixth Schedule) </p>
+			<form>
+				<table>
+					<thead>
+						<tr>
+							<th>S/N </th>
+							<th>Particulars</th>
+							<th>Amount in Taka</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td>Life Insurance Premium</td>
+							<td>
+								<input type="text" id="lifeInsurancePremium" value="0" onchange="netInvestment()" />
+							</td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>Contribution to Deferred Annuity</td>
+							<td>
+								<input type="text" id="DeferredAnnuity" value="0" onchange="netInvestment()" />
+							</td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td>Contribution to Provident Fund to which Provident Fund Act, 1925 Applies </td>
+							<td>
+								<input type="text" id="ProvidentFund" value="0" onchange="netInvestment()" />
+							</td>
+						</tr>
+						<tr>
+							<td>4</td>
+							<td>Self Contribution and Employer’s Contribution to Recognized Provident Fund</td>
+							<td>
+								<input type="text" id="Self-EmployersProvidentFund" value="0" onchange="netInvestment()" />
+							</td>
+						</tr>
+						<tr>
+							<td>5</td>
+							<td>Contribution to Super Annuation Fund</td>
+							<td>
+								<input type="text" id="SuperAnnuationFund" value="0" onchange="netInvestment()" />
+							</td>
+						</tr>
+						<tr>
+							<td>6</td>
+							<td>Investment in Approved Debenture or Debenture Stock, Stock or Shares</td>
+							<td>
+								<input type="text" id="ApprovedDebentureStockShares" value="0" onchange="netInvestment()" />
+							</td>
+						</tr>
+						<tr>
+							<td>7</td>
+							<td>Contribution to Deposit Pension Scheme</td>
+							<td>
+								<input type="text" id="DepositPensionScheme" value="0" onchange="netInvestment()" />
+							</td>
+						</tr>
+						<tr>
+							<td>8</td>
+							<td>Contribution to Benevolent Fund and Group Insurance Premium</td>
+							<td>
+								<input type="text" id="benevolentFundGroupInsurancePremium" value="0" onchange="netInvestment()" />
+							</td>
+						</tr>
+						<tr>
+							<td>9</td>
+							<td>Contribution to Zakat Fund</td>
+							<td>
+								<input type="text" id="zakatFund" value="0" onchange="netInvestment()" />
+							</td>
+						</tr>
+						<tr>
+							<td>10</td>
+							<td>Others (if any)</td>
+							<td>
+								<input type="text" id="othersInvestment" value="0" onchange="netInvestment()" />
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td align="right">Total=      </td>
+							<td>
+								<input type="text" id="totalInvestment" value="0" />
+							</td>
+						</tr>
+					</tbody>
+					<tbody></tbody>
+				</table>
+			</form>
+			<!-- <div>
+				<input type="button" id="insertInvestment" value="Insert" onclick="insertInvestment()" style="height: 30px; width: 100px;" />
+			</div> -->
+		</div>
+     <script>
+      
+	// For salary
+      function netSalary() {
+		
+    	//setSalaryTo3();
+    	basicPayTo3();
+    	specialPayTo3();
+    	dearnessAllowanceTo3();
+    	conveyanceAllowanceTo3();
+    	houseRentAllowanceTo3();
+    	medicalAllowanceTo3();
+    	servantAllowanceTo3();
+    	leaveAllowanceTo3();
+    	honorariumTo3();
+    	overtimeAllowanceTo3();
+    	bonusTo3();
+    	otherAllowanceTo3();
+    	empContributeToPservantAllowancerovidentFundTo3();
+    	interestAccruedOnProvidentFundTo3();
+    	deemedIncomeForTransportFacilityTo3();
+    	deemedIncomeForFreeFurnishedOrUnfurnishedAccommodationTo3();
+    	otherTo3(); 
+      	var totalSalary = getTotalSalary();
+      	$("#netTaxableIncomeFromSalary1").val(totalSalary);
+      	$("#netTaxableIncomeFromSalary3").val(totalSalary);
+      	$("#salary").val(totalSalary);
+      }
+      function basicPayTo3() {
+			
+			var basicPay = $('#basicPay1').val();
+			return $('#basicPay3').val(basicPay);
+		}
+     function specialPayTo3() {
+    	
+    	var specialPay = $("#specialPay1").val();
+    	return $('#specialPay3').val(specialPay);
+    }
+    function dearnessAllowanceTo3() {
+    	
+    	var dearnessAllowance = $("#dearnessAllowance1").val();
+    	return $('#dearnessAllowance3').val(dearnessAllowance);
+    }  	
+    function conveyanceAllowanceTo3() {
+    	
+    	var conveyanceAllowance = $("#conveyanceAllowance1").val();
+    	return $('#conveyanceAllowance3').val(conveyanceAllowance);
+    } 
+    function houseRentAllowanceTo3() {
+  		
+  		var houseRentAllowance = $("#houseRentAllowance1").val();
+  		return $('#houseRentAllowance3').val(houseRentAllowance);
+  	}
+    function medicalAllowanceTo3() {
+  		
+  		var medicalAllowance = $("#medicalAllowance1").val();
+  		return $('#medicalAllowance3').val(medicalAllowance);
+  	}
+  	function servantAllowanceTo3() {
+  		
+  		var servantAllowance = $("#servantAllowance1").val();
+  		return $('#servantAllowance3').val(servantAllowance);
+  	}
+  	function leaveAllowanceTo3() {
+  		
+  		var leaveAllowance = $("#leaveAllowance1").val();
+  		return $('#leaveAllowance3').val(leaveAllowance);
+  	}
+  	function honorariumTo3() {
+  		
+  		var honorarium = $("#honorarium1").val();
+  		return $('#honorarium3').val(honorarium);
+  	}
+  	function overtimeAllowanceTo3() {
+  		
+  		var overtimeAllowance = $("#overtimeAllowance1").val();
+  		return $('#overtimeAllowance3').val(overtimeAllowance);
+  	}
+  	function bonusTo3() {
+  		
+  		var bonus = $("#bonus1").val();
+  		return $('#bonus3').val(bonus);
+  	}
+  	function otherAllowanceTo3() {
+  		
+  		var otherAllowance = $("#otherAllowance1").val();
+  		return $('#otherAllowance3').val(otherAllowance);
+  	}
+  	function empContributeToPservantAllowancerovidentFundTo3() {
+  		
+  		var empContributeToPservantAllowancerovidentFund = $("#empContributeToProvidentFund1").val();
+  		return $('#empContributeToProvidentFund3').val(empContributeToPservantAllowancerovidentFund);
+  	}
+  	function interestAccruedOnProvidentFundTo3() {
+  		
+  		var interestAccruedOnProvidentFund = $("#interestAccruedOnProvidentFund1").val();
+  		return $('#interestAccruedOnProvidentFund3').val(interestAccruedOnProvidentFund);
+  	}
+  	function deemedIncomeForTransportFacilityTo3() {
+  		
+  		var deemedIncomeForTransportFacility = $("#deemedIncomeForTransportFacility1").val();
+  		return $('#deemedIncomeForTransportFacility3').val(deemedIncomeForTransportFacility);
+  	}
+  	function deemedIncomeForFreeFurnishedOrUnfurnishedAccommodationTo3() {
+  		
+  		var deemedIncomeForFreeFurnishedOrUnfurnishedAccommodation = $("#deemedIncomeForFreeFurnishedOrUnfurnishedAccommodation1").val();
+  		return $('#deemedIncomeForFreeFurnishedOrUnfurnishedAccommodation').val(deemedIncomeForFreeFurnishedOrUnfurnishedAccommodation);
+  	}
+  	function otherTo3() {
+  		
+  		var other = $("#other1").val();
+  		return $('#other3').val(other);
+  	}  
+      function getTotalSalary() {
+      	
+      	var basicPay = $('#basicPay1').val();
+      	//alert("basicPay: "+basicPay);
+      	
+      	var specialPay = $("#specialPay1").val();
+      	//alert("specialPay: "+specialPay);
+      	var dearnessAllowance = $("#dearnessAllowance1").val();
+      	
+      	var conveyanceAllowance = $("#conveyanceAllowance1").val();
+      	var houseRentAllowance = $("#houseRentAllowance1").val();
+      	var medicalAllowance = $("#medicalAllowance1").val();
+      	var servantAllowance = $("#servantAllowance1").val();
+      	var leaveAllowance = $("#leaveAllowance1").val();
+      	var honorarium = $("#honorarium1").val();
+      	var overtimeAllowance = $("#overtimeAllowance1").val();
+      	var bonus = $("#bonus1").val();
+      	var otherAllowance = $("#otherAllowance1").val();
+      	var empContributeToPservantAllowancerovidentFund = $("#empContributeToProvidentFund1").val();
+      	var interestAccruedOnProvidentFund = $("#interestAccruedOnProvidentFund1").val();
+      	var deemedIncomeForTransportFacility = $("#deemedIncomeForTransportFacility1").val();
+      	var deemedIncomeForFreeFurnishedOrUnfurnishedAccommodation = $("#deemedIncomeForFreeFurnishedOrUnfurnishedAccommodation1").val();
+      	var other = $("#other1").val();
+      	
+      	var sum = parseInt(basicPay)+parseInt(specialPay)+parseInt(dearnessAllowance)+parseInt(conveyanceAllowance)+parseInt(houseRentAllowance)+
+      			  parseInt(medicalAllowance)+parseInt(servantAllowance)+parseInt(leaveAllowance)+parseInt(honorarium)+
+      			  parseInt(overtimeAllowance)+parseInt(bonus)+parseInt(otherAllowance)+parseInt(empContributeToPservantAllowancerovidentFund)+
+      			  parseInt(interestAccruedOnProvidentFund)+parseInt(deemedIncomeForTransportFacility)+
+      			  parseInt(deemedIncomeForFreeFurnishedOrUnfurnishedAccommodation)+parseInt(other);
+      	
+      	//alert("sum: "+sum);
+      	return sum;
+      }
+      
+			
+      //For house property
+      function netHouseProperty() {
+    	  
+    	  totalHouseProperty = getHouseProperty();
+    	  $('#totalHouseProperty').val(totalHouseProperty);
+    	  totalIncomeFromHouseProperty = getNetIncome();
+    	  $('#netIncomeFromHouseProperty').val(totalIncomeFromHouseProperty);
+    	  $('#incomeFromHouseProperty').val(totalIncomeFromHouseProperty);
+      }
+    
+      function getHouseProperty() {
+    	  
+    	  var annualRentalIncome = $('#annualRentalIncome').val();
+    	  //alert(annualRentalIncome);
+    	      	  
+    	  var rentalStatus = $('input[name=rentalStatus]:checked', '#housePropInfo').val();
+    	  if(rentalStatus == 'residential') {
+    		  
+    		  setRepairCollection = (annualRentalIncome * 25)/100;
+    		  $('#repairCollection').val(setRepairCollection);
+    		  
+    	  }
+    	  else if(rentalStatus == 'commercial') {
+    		  
+    		  setRepairCollection = (annualRentalIncome * 30)/100;
+    		  $('#repairCollection').val(setRepairCollection);
+    	  }
+    	  
+    	  var municipalLocalTax = $('#municipalLocalTax').val();
+    	  var landRevenue = $('#landRevenue').val();
+    	  var InterestLMCCharge = $('#InterestLMCCharge').val();
+    	  var insurancePremium = $('#insurancePremium').val();
+    	  var vacancyAllowance = $('#vacancyAllowance').val();
+    	  var other = $('#other').val();
+    	  
+    	  var sumHouseProp = parseInt(setRepairCollection)+parseInt(municipalLocalTax)+
+    	  					 parseInt(landRevenue)+parseInt(InterestLMCCharge)+parseInt(insurancePremium)+
+    	  					 parseInt(vacancyAllowance)+parseInt(other);
+    	  
+    	  return sumHouseProp;
+      }
+      function getNetIncome() {
+    	  
+    	  var annualRentalIncome = $('#annualRentalIncome').val();
+    	  //alert(annualRentalIncome);
+    	      	  
+    	  var rentalStatus = $('input[name=rentalStatus]:checked', '#housePropInfo').val();
+    	  if(rentalStatus == 'residential') {
+    		  
+    		  setRepairCollection = (annualRentalIncome * 25)/100;
+    		  $('#repairCollection').val(setRepairCollection);
+    		  
+    	  }
+    	  else if(rentalStatus == 'commercial') {
+    		  
+    		  setRepairCollection = (annualRentalIncome * 30)/100;
+    		  $('#repairCollection').val(setRepairCollection);
+    	  }
+    	  
+    	  var municipalLocalTax = $('#municipalLocalTax').val();
+    	  var landRevenue = $('#landRevenue').val();
+    	  var InterestLMCCharge = $('#InterestLMCCharge').val();
+    	  var insurancePremium = $('#insurancePremium').val();
+    	  var vacancyAllowance = $('#vacancyAllowance').val();
+    	  var other = $('#other').val();
+    	  
+    	  var sumNetIncome = parseInt(annualRentalIncome)-parseInt(setRepairCollection)-parseInt(municipalLocalTax)-
+    	  					 parseInt(landRevenue)-parseInt(InterestLMCCharge)-parseInt(insurancePremium)-
+    	  					 parseInt(vacancyAllowance)-parseInt(other);
+    	  
+    	  return sumNetIncome;
+      }
+      
+    //For Investment
+      function netInvestment() {
+    	  
+    	  totInvestment = getInvestment();
+    	  $('#totalInvestment').val(totInvestment);
+    	  $('#investment').val(totInvestment);
+      }
+      function getInvestment() {
+    	  
+    	  var lifeInsurancePremium = $('#lifeInsurancePremium').val();
+    	  //alert(lifeInsurancePremium)
+    	  var DeferredAnnuity = $('#DeferredAnnuity').val();
+    	  var ProvidentFund = $('#ProvidentFund').val();
+    	  var SelfEmployersProvidentFund = $('#Self-EmployersProvidentFund').val();
+    	  var SuperAnnuationFund = $('#SuperAnnuationFund').val();
+    	  var ApprovedDebentureStockShares = $('#ApprovedDebentureStockShares').val();
+    	  var DepositPensionScheme = $('#DepositPensionScheme').val();
+    	  var benevolentFundGroupInsurancePremium = $('#benevolentFundGroupInsurancePremium').val();
+    	  var zakatFund = $('#zakatFund').val();
+    	  var othersInvestment = $('#othersInvestment').val();
+    	  
+    	  var sumNetInvestment = parseInt(lifeInsurancePremium)+parseInt(DeferredAnnuity)+parseInt(ProvidentFund)+
+    	  						 parseInt(SelfEmployersProvidentFund)+parseInt(SuperAnnuationFund)+parseInt(ApprovedDebentureStockShares)+
+    	  						 parseInt(DepositPensionScheme)+parseInt(benevolentFundGroupInsurancePremium)+parseInt(zakatFund)+parseInt(othersInvestment);
+		return sumNetInvestment;
+	}  
+      </script>
+</body>
+</html>
